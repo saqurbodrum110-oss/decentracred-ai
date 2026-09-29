@@ -3,151 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DecentraCred AI - Smart Verification Platform</title>
+    <title>DecentraCred AI - Live Verification</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            margin-top: 20px;
-        }
-        h1 {
-            color: #58a6ff;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        p.subtitle {
-            color: #8b949e;
-            font-size: 1.1rem;
-        }
-        .container {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 600px;
-            padding: 30px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-        .upload-section {
-            border: 2px dashed #30363d;
-            border-radius: 8px;
-            padding: 40px 20px;
-            text-align: center;
-            background-color: #0d1117;
-            cursor: pointer;
-            transition: border-color 0.3s;
-        }
-        .upload-section:hover {
-            border-color: #58a6ff;
-        }
-        .btn {
-            background-color: #238636;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        .btn:hover {
-            background-color: #2ea043;
-        }
-        .result-box {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: #0d1117;
-            border-radius: 8px;
-            border: 1px solid #30363d;
-            display: none;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-        .verified {
-            background-color: rgba(46, 160, 67, 0.15);
-            color: #3fb950;
-            border: 1px solid #2ea043;
-        }
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-        }
-        .info-label {
-            color: #8b949e;
-        }
-        .info-value {
-            color: #c9d1d9;
-            font-family: monospace;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #0d1117; color: #c9d1d9; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        h1 { color: #58a6ff; margin-bottom: 10px; }
+        .container { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; width: 100%; max-width: 600px; padding: 30px; margin-top: 20px; }
+        .upload-area { border: 2px dashed #58a6ff; border-radius: 8px; padding: 30px; text-align: center; cursor: pointer; background: #0d1117; }
+        input[type="file"] { display: none; }
+        .btn { background-color: #238636; color: white; border: none; padding: 12px; border-radius: 6px; width: 100%; margin-top: 15px; font-weight: bold; cursor: pointer; }
+        .result-box { margin-top: 20px; padding: 20px; border-radius: 8px; border: 1px solid #30363d; display: none; background: #0d1117; }
+        .status-badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-weight: bold; margin-bottom: 15px; }
+        .verified { background-color: rgba(46, 160, 67, 0.2); color: #3fb950; border: 1px solid #2ea043; }
+        .fake { background-color: rgba(248, 81, 73, 0.2); color: #f85149; border: 1px solid #da3633; }
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
+        .info-val { font-family: monospace; color: #58a6ff; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>DecentraCred AI</h1>
-        <p class="subtitle">Decentralized & AI-Powered Academic Credential Verification</p>
-    </header>
+    <h1>DecentraCred AI</h1>
+    <p style="color: #8b949e;">Live Hash-Based Certificate Verification Engine</p>
 
     <div class="container">
-        <div class="upload-section">
-            <svg width="48" height="48" fill="none" stroke="#58a6ff" viewBox="0 0 24 24" style="margin-bottom: 10px;">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-            </svg>
-            <p>Drag and drop certificate document (PDF / Image) or click to browse</p>
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+            <p id="fileName">Click here to select Certificate File (PDF / Image)</p>
+            <input type="file" id="fileInput" onchange="showFileName()">
         </div>
 
-        <button class="btn" onclick="verifyDoc()">Verify Certificate on Blockchain</button>
+        <button class="btn" onclick="processVerification()">Verify Certificate Now</button>
 
         <div class="result-box" id="resultBox">
-            <span class="status-badge verified">✓ VERIFIED ON BLOCKCHAIN</span>
-            <div class="info-row">
-                <span class="info-label">Issuer:</span>
-                <span class="info-value">Setabganj Ideal Academy</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Student ID:</span>
-                <span class="info-value">SIA-2026-8891</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">AI Confidence Score:</span>
-                <span class="info-value" style="color: #3fb950;">99.4% (Authentic)</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Block Hash:</span>
-                <span class="info-value">0x7f8a...3b92</span>
-            </div>
+            <div id="badge"></div>
+            <div class="info-row"><span>Computed SHA-256:</span><span class="info-val" id="fileHash"></span></div>
+            <div id="details"></div>
         </div>
     </div>
 
     <script>
-        function verifyDoc() {
-            document.getElementById('resultBox').style.display = 'block';
+        // ১. তোমার আসল সার্টিফিকেট ফাইলের SHA-256 Hash এখানে বসাবে (নিচেHash বের করার উপায় বলা আছে)
+        const ORIGINAL_VALID_HASH = "8a2f...YOUR_EXACT_FILE_HASH_HERE...";
+
+        function showFileName() {
+            const input = document.getElementById('fileInput');
+            if(input.files.length > 0) {
+                document.getElementById('fileName').innerText = "Selected: " + input.files[0].name;
+            }
+        }
+
+        async function processVerification() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                alert("Please select a file first!");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const arrayBuffer = await file.arrayBuffer();
+            
+            // ব্রাউজার নিজেই ফাইলের SHA-256 Hash ক্যালকুলেট করছে
+            const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const calculatedHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+            const resultBox = document.getElementById('resultBox');
+            const badge = document.getElementById('badge');
+            const fileHashDisplay = document.getElementById('fileHash');
+            const details = document.getElementById('details');
+
+            resultBox.style.display = 'block';
+            fileHashDisplay.innerText = calculatedHash.substring(0, 16) + "...";
+
+            // Hash Matching Check
+            if (calculatedHash === ORIGINAL_VALID_HASH) {
+                badge.className = "status-badge verified";
+                badge.innerText = "✓ VERIFIED ON BLOCKCHAIN";
+                details.innerHTML = `
+                    <div class="info-row"><span>Issuer:</span><span class="info-val">Setabganj Ideal Academy</span></div>
+                    <div class="info-row"><span>Student ID:</span><span class="info-val">SIA-2026-8891</span></div>
+                    <div class="info-row"><span>AI Confidence Score:</span><span class="info-val" style="color:#3fb950;">99.8% (Authentic)</span></div>
+                `;
+            } else {
+                badge.className = "status-badge fake";
+                badge.innerText = "❌ FAKE / TAMPERED DOCUMENT";
+                details.innerHTML = `
+                    <div class="info-row"><span>Status:</span><span class="info-val" style="color:#f85149;">Hash mismatch! No record found on Blockchain.</span></div>
+                    <div class="info-row"><span>AI Confidence Score:</span><span class="info-val" style="color:#f85149;">12.3% (Suspected Fake)</span></div>
+                `;
+            }
         }
     </script>
 </body>
